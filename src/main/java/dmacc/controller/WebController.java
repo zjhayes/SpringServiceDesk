@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import dmacc.beans.Request;
+import dmacc.beans.User;
 import dmacc.repository.RequestRepository;
+import dmacc.repository.UserRepository;
 
 @Controller
 public class WebController
 {
 	@Autowired
 	RequestRepository repo;
+	UserRepository userRepo;
 
 	@GetMapping("/viewAll") // Link from index.html
 	public String viewAllRequests(Model model)
@@ -43,6 +46,9 @@ public class WebController
 	public String addNewRequest(@ModelAttribute Request r, Model model)
 	{
 		r.setCreatedDate(LocalDate.now());
+		User testUser = new User("jsmith@example.com", "John Smith", "fWFdv2@$f4");
+		userRepo.save(testUser);
+		r.setCustomer(testUser);
 		repo.save(r);
 		return "success";
 	}
@@ -70,5 +76,25 @@ public class WebController
 		return viewAllRequests(model);
 	}
 	
+	@GetMapping("/viewAllUsers")
+	public String viewAllUsers(Model model)
+	{	
+		model.addAttribute("users", userRepo.findAll());
+		return "users";
+	}
 	
+	@GetMapping("/inputUser") // Action called from portal.html, link from index.html
+	public String addNewUser(Model model)
+	{
+		User u = new User();
+		model.addAttribute("newUser", u); // passing object to portal called newRequest
+		return "register-user"; // Pass empty Request to portal form.
+	}
+	
+	@PostMapping("/inputUser")
+	public String addNewUser(@ModelAttribute User u, Model model)
+	{
+		userRepo.save(u);
+		return "users";
+	}
 }

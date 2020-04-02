@@ -2,14 +2,18 @@ package dmacc.beans;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
+@Table(name = "requests")
 public class Request
 {
 	@Id
@@ -20,7 +24,8 @@ public class Request
 	private String requestType;
 	@CreationTimestamp
 	private LocalDate createdDate;
-	@Autowired
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User customer;
 	
 	public Request()
@@ -34,6 +39,15 @@ public class Request
 		this.subject = subject;
 		this.description = description;
 		this.requestType = requestType;
+	}
+	
+	public Request(String subject, String description, String requestType, User customer)
+	{
+		super();
+		this.subject = subject;
+		this.description = description;
+		this.requestType = requestType;
+		this.customer = customer;
 	}
 	
 	public Request(String subject, String description, String requestType, LocalDate createdDate)

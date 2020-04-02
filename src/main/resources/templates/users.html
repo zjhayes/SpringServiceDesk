@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>View All Users</title>
+</head>
+<body>
+	<form>
+		<table>
+			<tr th:each="currentUser : ${users}">
+				<td th:text="${currentUser.id}" />
+				<td th:text="${currentRequest.displayName}" />
+				<td th:text="${currentRequest.email}" />
+				<td th:text="${currentRequest.password}" />
+			</tr>
+		</table>
+	</form><br/>
+	<a href="../inputUser">Register New User</a><br/>
+	<a href="/">Return Home</a>
+</body>
+</html>

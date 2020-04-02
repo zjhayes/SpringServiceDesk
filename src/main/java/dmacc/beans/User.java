@@ -1,13 +1,31 @@
 package dmacc.beans;
 
-import javax.persistence.Embeddable;
+import java.util.HashSet;
+import java.util.Set;
 
-@Embeddable
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
 public class User
 {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private long id;
 	private String email;
 	private String displayName;
 	private String password;
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Request> requests = new HashSet<>();
 	
 	public User()
 	{
