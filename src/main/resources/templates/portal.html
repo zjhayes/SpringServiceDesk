@@ -5,9 +5,18 @@
 <title>Service Desk Portal</title>
 </head>
 <body>
-	<form th:object="${newRequest}" th:action="@{/inputRequest}" method="Post">
-		
+	<form th:object="${newRequest}" th:action="@{/inputRequest}" method="POST">
+		Subject: <input name="subject" size="20"><br/>
+		Request Type: 
+		<select name="requestType">
+			<option value="Bug">Bug</option>
+			<option value="Feature">Feature</option>
+			<option value="Other">Other</option>
+		</select><br/>
+		Description:<br/>
+		<textarea name="description" rows="4" cols="50"></textarea><br/>
+		<input name="submit" type="submit" value="Create Request"/><br/>
 	</form>
-	<a href="index.html">Return Home</a>
+	<a href="/">Return Home</a>
 </body>
 </html>

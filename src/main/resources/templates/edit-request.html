@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Edit Request</title>
+</head>
+<body>
+	<form th:object="${requestToUpdate}" th:action="@{/update/{id}(id=${requestToUpdate.id})}" method="POST">
+		Subject: <input name="subject" size="20" th:field="*{subject}"><br/>
+		Request Type: 
+		<select name="requestType" th:field="*{requestType}">
+			<option value="Bug">Bug</option>
+			<option value="Feature">Feature</option>
+			<option value="Other">Other</option>
+		</select><br/>
+		Description:<br/>
+		<textarea name="description" rows="4" cols="50" th:field="*{description}"></textarea><br/>
+		Created Date:<br/>
+		<input type="hidden" name="createdDate" th:field="*{createdDate}">
+		<input name="submit" type="submit" value="Save Changes"/><br/>
+	</form>
+	<a href="/">Return Home</a>
+</body>
+</html>

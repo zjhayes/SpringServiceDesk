@@ -28,6 +28,14 @@ public class Request
 		super();
 	}
 	
+	public Request(String subject, String description, String requestType)
+	{
+		super();
+		this.subject = subject;
+		this.description = description;
+		this.requestType = requestType;
+	}
+	
 	public Request(String subject, String description, String requestType, LocalDate createdDate)
 	{
 		super();

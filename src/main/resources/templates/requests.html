@@ -13,10 +13,13 @@
 				<td th:text="${currentRequest.description}" />
 				<td th:text="${currentRequest.requestType}" />
 				<td th:text="${currentRequest.createdDate}" />
-				<td th:text="${currentRequest.customer.displayName}" />
+				<!--<td th:text="${currentRequest.customer.displayName}" />-->
+				<td><a th:href="@{/edit/{id}(id=${currentRequest.id})}">Edit</a></td>
+				<td><a th:href="@{/delete/{id}(id=${currentRequest.id})}">Close</a></td>
 			</tr>
 		</table>
-	</form>
-	<a href="../inputRequest">Create New Request</a>
+	</form><br/>
+	<a href="../inputRequest">Create New Request</a><br/>
+	<a href="/">Return Home</a>
 </body>
 </html>
