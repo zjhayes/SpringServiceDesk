@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>View All Requests</title>
+</head>
+<body>
+	<form>
+		<table>
+			<tr th:each="currentRequest : ${requests}">
+				<td th:text="${currentRequest.id}" />
+				<td th:text="${currentRequest.subject}" />
+				<td th:text="${currentRequest.description}" />
+				<td th:text="${currentRequest.requestType}" />
+				<td th:text="${currentRequest.createdDate}" />
+				<td th:text="${currentRequest.customer.displayName}" />
+			</tr>
+		</table>
+	</form>
+	<a href="../inputRequest">Create New Request</a>
+</body>
+</html>
