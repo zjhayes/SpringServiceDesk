@@ -1,6 +1,7 @@
 package dmacc.beans;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "requests")
@@ -24,18 +26,19 @@ public class Request
 	private String requestType;
 	@CreationTimestamp
 	private LocalDate createdDate;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_id", nullable = false)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private User customer;
 	
 	public Request()
 	{
 		super();
+		setMockUser();
 	}
 	
 	public Request(String subject, String description, String requestType)
 	{
 		super();
+		setMockUser();
 		this.subject = subject;
 		this.description = description;
 		this.requestType = requestType;
@@ -44,6 +47,7 @@ public class Request
 	public Request(String subject, String description, String requestType, User customer)
 	{
 		super();
+		setMockUser();
 		this.subject = subject;
 		this.description = description;
 		this.requestType = requestType;
@@ -53,6 +57,7 @@ public class Request
 	public Request(String subject, String description, String requestType, LocalDate createdDate)
 	{
 		super();
+		setMockUser();
 		this.subject = subject;
 		this.description = description;
 		this.requestType = requestType;
@@ -62,11 +67,17 @@ public class Request
 	public Request(String subject, String description, String requestType, LocalDate createdDate, User customer)
 	{
 		super();
+		setMockUser();
 		this.subject = subject;
 		this.description = description;
 		this.requestType = requestType;
 		this.createdDate = createdDate;
 		this.customer = customer;
+	}
+	
+	public void setMockUser()
+	{
+		//this.customer = new User("sjohn@example.com", "John Smith", "kjagds");
 	}
 
 	public long getId()

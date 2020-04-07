@@ -9,9 +9,9 @@
 		<table>
 			<tr th:each="currentUser : ${users}">
 				<td th:text="${currentUser.id}" />
-				<td th:text="${currentRequest.displayName}" />
-				<td th:text="${currentRequest.email}" />
-				<td th:text="${currentRequest.password}" />
+				<td th:text="${currentUser.displayName}" />
+				<td th:text="${currentUser.email}" />
+				<td th:text="${currentUser.password}" />
 			</tr>
 		</table>
 	</form><br/>

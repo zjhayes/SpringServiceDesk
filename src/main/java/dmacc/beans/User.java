@@ -1,7 +1,7 @@
 package dmacc.beans;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "users")
@@ -24,8 +26,8 @@ public class User
 	private String email;
 	private String displayName;
 	private String password;
-	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Request> requests = new HashSet<>();
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = { CascadeType.MERGE, CascadeType.REMOVE })
+	private List<Request> requests = new ArrayList<Request>();
 	
 	public User()
 	{
@@ -38,6 +40,26 @@ public class User
 		this.email = email;
 		this.displayName = displayName;
 		this.password = password;
+	}
+
+	public long getId()
+	{
+		return id;
+	}
+
+	public void setId(long id)
+	{
+		this.id = id;
+	}
+
+	public List<Request> getRequests()
+	{
+		return requests;
+	}
+
+	public void setRequests(List<Request> requests)
+	{
+		this.requests = requests;
 	}
 
 	public String getEmail()

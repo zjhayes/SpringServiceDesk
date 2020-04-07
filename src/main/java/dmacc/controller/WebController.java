@@ -20,6 +20,7 @@ public class WebController
 {
 	@Autowired
 	RequestRepository repo;
+	@Autowired
 	UserRepository userRepo;
 
 	@GetMapping("/viewAll") // Link from index.html
@@ -46,9 +47,6 @@ public class WebController
 	public String addNewRequest(@ModelAttribute Request r, Model model)
 	{
 		r.setCreatedDate(LocalDate.now());
-		User testUser = new User("jsmith@example.com", "John Smith", "fWFdv2@$f4");
-		userRepo.save(testUser);
-		r.setCustomer(testUser);
 		repo.save(r);
 		return "success";
 	}
@@ -79,6 +77,11 @@ public class WebController
 	@GetMapping("/viewAllUsers")
 	public String viewAllUsers(Model model)
 	{	
+		if(userRepo.findAll().isEmpty())
+		{
+			return viewAllRequests(model);
+		}
+		
 		model.addAttribute("users", userRepo.findAll());
 		return "users";
 	}
