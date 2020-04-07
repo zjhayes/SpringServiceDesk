@@ -12,6 +12,8 @@
 				<td th:text="${currentUser.displayName}" />
 				<td th:text="${currentUser.email}" />
 				<td th:text="${currentUser.password}" />
+				<td><a th:href="@{/edit-user/{id}(id=${currentUser.id})}">Edit</a></td>
+				<td><a th:href="@{/delete-user/{id}(id=${currentUser.id})}">Delete</a></td>
 			</tr>
 		</table>
 	</form><br/>

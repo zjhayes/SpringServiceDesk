@@ -98,6 +98,29 @@ public class WebController
 	public String addNewUser(@ModelAttribute User u, Model model)
 	{
 		userRepo.save(u);
-		return "users";
+		return viewAllUsers(model);
+	}
+	
+	@GetMapping("/edit-user/{id}") // id set in requests.html
+	public String showUpdateUser(@PathVariable("id") long id, Model model)
+	{
+		User u = userRepo.findById(id).orElse(null);
+		model.addAttribute("userToUpdate", u);
+		return "edit-user";
+	}
+	
+	@PostMapping("/update-user/{id}") // Set in edit-request.html
+	public String editUsert(User u, Model model)
+	{
+		userRepo.save(u);
+		return viewAllUsers(model);
+	}
+	
+	@GetMapping("/delete-user/{id}")
+	public String deleteUser(@PathVariable("id") long id, Model model)
+	{
+		User u = userRepo.findById(id).orElse(null);
+		userRepo.delete(u);
+		return viewAllUsers(model);
 	}
 }
