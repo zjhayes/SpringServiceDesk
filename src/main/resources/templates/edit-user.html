@@ -2,13 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="js/check-form.js" th:src="@{/js/check-form.js}"></script>
 <title>Edit User</title>
 </head>
 <body>
-	<form th:object="${userToUpdate}" th:action="@{/update-user/{id}(id=${userToUpdate.id})}" method="POST">
+	<form th:object="${userToUpdate}" th:action="@{/update-user/{id}(id=${userToUpdate.id})}" method="POST" onsubmit="return checkUserDetails(this)">
 		Name: <input name="displayName" size="20" th:field="*{displayName}"><br/>
 		Email: <input name="email" size="40" th:field="*{email}"><br/>
-		Password: <input name="password" size="20" th:field="*{password}"><br/>
+		<input type="hidden" name="password" th:field="*{password}">
+		<a th:href="@{/edit-password/{id}(id=${userToUpdate.id})}">Change Password</a><br/>
 		<input name="submit" type="submit" value="Save Changes"/><br/>
 	</form>
 	<a href="/">Return Home</a>

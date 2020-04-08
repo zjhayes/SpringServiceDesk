@@ -123,4 +123,12 @@ public class WebController
 		userRepo.delete(u);
 		return viewAllUsers(model);
 	}
+	
+	@GetMapping("/edit-password/{id}")
+	public String showUpdatePassword(@PathVariable("id") long id, Model model)
+	{
+		User u = userRepo.findById(id).orElse(null);
+		model.addAttribute("userToUpdate", u);
+		return "update-password";
+	}
 }

@@ -2,13 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="js/check-form.js"></script>
 <title>Register User</title>
 </head>
 <body>
-	<form th:object="${newUser}" th:action="@{/inputUser}" method="POST">
+	<form th:object="${newUser}" th:action="@{/inputUser}" method="POST" onsubmit="return checkForm(this)">
 		Name: <input name="displayName" size="20"><br/>
 		Email: <input name="email" size="40"><br/>
-		Password: <input name="password" size="20"><br/>
+		Password: <input type="password" name="password" size="20"><br/>
+		Verify Password: <input type="password" name="verifypassword" size="20"><br/>
 		<input name="submit" type="submit" value="Register User" /><br/>
 	</form>
 	<a href="/">Return Home</a>
