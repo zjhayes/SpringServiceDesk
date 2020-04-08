@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import dmacc.beans.Request;
+import dmacc.beans.User;
 import dmacc.repository.RequestRepository;
+import dmacc.repository.UserRepository;
 
 @Controller
 public class WebController
 {
 	@Autowired
 	RequestRepository repo;
+	@Autowired
+	UserRepository userRepo;
 
 	@GetMapping("/viewAll") // Link from index.html
 	public String viewAllRequests(Model model)
@@ -70,5 +74,61 @@ public class WebController
 		return viewAllRequests(model);
 	}
 	
+	@GetMapping("/viewAllUsers")
+	public String viewAllUsers(Model model)
+	{	
+		if(userRepo.findAll().isEmpty())
+		{
+			return viewAllRequests(model);
+		}
+		
+		model.addAttribute("users", userRepo.findAll());
+		return "users";
+	}
 	
+	@GetMapping("/inputUser") // Action called from portal.html, link from index.html
+	public String addNewUser(Model model)
+	{
+		User u = new User();
+		model.addAttribute("newUser", u); // passing object to portal called newRequest
+		return "register-user"; // Pass empty Request to portal form.
+	}
+	
+	@PostMapping("/inputUser")
+	public String addNewUser(@ModelAttribute User u, Model model)
+	{
+		userRepo.save(u);
+		return viewAllUsers(model);
+	}
+	
+	@GetMapping("/edit-user/{id}") // id set in requests.html
+	public String showUpdateUser(@PathVariable("id") long id, Model model)
+	{
+		User u = userRepo.findById(id).orElse(null);
+		model.addAttribute("userToUpdate", u);
+		return "edit-user";
+	}
+	
+	@PostMapping("/update-user/{id}") // Set in edit-request.html
+	public String editUsert(User u, Model model)
+	{
+		userRepo.save(u);
+		return viewAllUsers(model);
+	}
+	
+	@GetMapping("/delete-user/{id}")
+	public String deleteUser(@PathVariable("id") long id, Model model)
+	{
+		User u = userRepo.findById(id).orElse(null);
+		userRepo.delete(u);
+		return viewAllUsers(model);
+	}
+	
+	@GetMapping("/edit-password/{id}")
+	public String showUpdatePassword(@PathVariable("id") long id, Model model)
+	{
+		User u = userRepo.findById(id).orElse(null);
+		model.addAttribute("userToUpdate", u);
+		return "update-password";
+	}
 }

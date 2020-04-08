@@ -1,13 +1,33 @@
 package dmacc.beans;
 
-import javax.persistence.Embeddable;
+import java.util.ArrayList;
+import java.util.List;
 
-@Embeddable
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Entity
+@Table(name = "users")
 public class User
 {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private long id;
 	private String email;
 	private String displayName;
 	private String password;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = { CascadeType.MERGE, CascadeType.REMOVE })
+	private List<Request> requests = new ArrayList<Request>();
 	
 	public User()
 	{
@@ -20,6 +40,26 @@ public class User
 		this.email = email;
 		this.displayName = displayName;
 		this.password = password;
+	}
+
+	public long getId()
+	{
+		return id;
+	}
+
+	public void setId(long id)
+	{
+		this.id = id;
+	}
+
+	public List<Request> getRequests()
+	{
+		return requests;
+	}
+
+	public void setRequests(List<Request> requests)
+	{
+		this.requests = requests;
 	}
 
 	public String getEmail()
